@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>간메추!</title>
+    <title>간메추!:~간단한 메뉴 추천~</title>
     <style>
       @import url(//fonts.googleapis.com/earlyaccess/hanna.css);
   
@@ -45,15 +45,15 @@
     <form action="/add" method="POST" style="padding: 30px;">
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">Email address</label>
-          <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" required>
           <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input type="password" class="form-control" name="password" id="exampleInputPassword1">
+          <input type="password" class="form-control" name="password" id="exampleInputPassword1" required>
         </div>
         <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
           <label class="form-check-label" for="exampleCheck1">Check me out</label>
         </div>
         <button type="LogIn" class="btn btn-primary" style="background-color: #68b792; border: 2px solid #246e4c">Submit</button>
