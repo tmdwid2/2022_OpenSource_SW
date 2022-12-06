@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 app.use(express.urlencoded({extended: true})) 
+app.use(express.json())
 const bodyParser= require('body-parser')
 app.use(bodyParser.urlencoded({extended: true})) 
 var db;
@@ -32,20 +33,6 @@ app.get('/write', function(req, res) {
     res.sendFile(__dirname +'/login.html')
   })
 
-  app.get('/logined/mypage', function(req, res) { 
-    db.collection('login').find({email: req.body.email, password: req.body.password }).toArray(function(err, result){
-      if(err) return console.log(err)
-      if(result.length == 0) {
-        console.log(result)
-        res.send('mypage is not complete....');
-      } else {
-        console.log(result);
-        res.render('mypage.ejs', {loginfo : result})
-      }
-        
-      })
-  })
-
 app.get('/list', function(req, res) {
   db.collection('login').find().toArray(function(err, result){
     console.log(result);
@@ -53,32 +40,29 @@ app.get('/list', function(req, res) {
   })
 })
 
-app.post('/logined', function(req, res){
-  db.collection('login').find({email: req.body.email, password: req.body.password }).toArray(function(err, result){
-    if(err) return console.log(err)
-    if(result.length == 0) {
-      console.log(result)
-      res.send('login is not complete....');
-    } else {
+app.post('/community', function(req, res){
+  db.collection('login').find({}, {projection: {_id:0, com:1}}).toArray(function(error, comresult){
+    if(error) return console.log(error)
+    console.log(comresult);
+  
+    db.collection('login').find({email : req.body.email, password : req.body.password}).toArray(function(err, result){
+      if(err) return console.log(err)
       console.log(result);
-      res.render('logined.ejs', {loginfo : result})
-    }
-      
+      res.render('community.ejs', {loginfo : result, cominfo : comresult})
     })
-
   })
+})
 
   app.post('/add', function(req, res){
     db.collection('config').findOne({name : 'totalcount'}, function(err, result){
       var mycount = result.count;
-      db.collection('login').insertOne( { _id : (mycount + 1), email : req.body.email, password : req.body.password, userName : req.body.userName } , function(){
+      db.collection('login').insertOne( { _id : (mycount + 1), email : req.body.email, password : req.body.password, userName : req.body.userName, com : req.body.com } , function(){
         db.collection('config').updateOne({name:'totalcount'}, { $inc: {count:1} }, function(err, result) {
           if(err) return console.log(err)
           console.log('save complete')
-          res.send('send complete....');
+          res.render('add.ejs')
         });
       });
-      res.json({ posts: result})
     });
     
   });

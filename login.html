@@ -21,7 +21,7 @@
       <div class="my-font">
         <ul class="nav justify-content-center">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="../" style="color: black;">Home</a>
+            <a class="nav-link active" aria-current="page" href="/" style="color: black;">Home</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"  style="color: black;">
@@ -35,14 +35,11 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" style="color: black;">Community</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/login" style="color: black;">LogIn</a>
+            <a class="nav-link" href="/login" style="color: black;">Community</a>
           </li>
         </ul>
       
-    <form action="/logined" method="POST" style="padding: 30px;">
+    <form action="/community" method="POST" style="padding: 30px;">
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">Email address</label>
           <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" required>
@@ -51,10 +48,6 @@
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Password</label>
           <input type="password" class="form-control" name="password" id="exampleInputPassword1" required>
-        </div>
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
-          <label class="form-check-label" for="exampleCheck1">Check me out</label>
         </div>
         <button type="submit" class="btn btn-primary" style="background-color: #68b792; border: 2px solid #246e4c">Log In</button>
         <span style="padding: 20px; font-size: 13px;">
