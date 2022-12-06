@@ -78,6 +78,7 @@ app.post('/logined', function(req, res){
           res.send('send complete....');
         });
       });
+      res.json({ posts: result})
     });
     
   });
