@@ -32,6 +32,20 @@ app.get('/write', function(req, res) {
     res.sendFile(__dirname +'/login.html')
   })
 
+  app.get('/logined/mypage', function(req, res) { 
+    db.collection('login').find({email: req.body.email, password: req.body.password }).toArray(function(err, result){
+      if(err) return console.log(err)
+      if(result.length == 0) {
+        console.log(result)
+        res.send('mypage is not complete....');
+      } else {
+        console.log(result);
+        res.render('mypage.ejs', {loginfo : result})
+      }
+        
+      })
+  })
+
 app.get('/list', function(req, res) {
   db.collection('login').find().toArray(function(err, result){
     console.log(result);
@@ -39,10 +53,25 @@ app.get('/list', function(req, res) {
   })
 })
 
+app.post('/logined', function(req, res){
+  db.collection('login').find({email: req.body.email, password: req.body.password }).toArray(function(err, result){
+    if(err) return console.log(err)
+    if(result.length == 0) {
+      console.log(result)
+      res.send('login is not complete....');
+    } else {
+      console.log(result);
+      res.render('logined.ejs', {loginfo : result})
+    }
+      
+    })
+
+  })
+
   app.post('/add', function(req, res){
     db.collection('config').findOne({name : 'totalcount'}, function(err, result){
       var mycount = result.count;
-      db.collection('login').insertOne( { _id : (mycount + 1), email : req.body.email, password : req.body.password } , function(){
+      db.collection('login').insertOne( { _id : (mycount + 1), email : req.body.email, password : req.body.password, userName : req.body.userName } , function(){
         db.collection('config').updateOne({name:'totalcount'}, { $inc: {count:1} }, function(err, result) {
           if(err) return console.log(err)
           console.log('save complete')

@@ -41,8 +41,14 @@
         <li class="nav-item">
           <a class="nav-link" href="#" style="color: black;">Community</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/login" style="color: black;">LogIn</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"  style="color: black;">
+            <%= loginfo[0].userName %> 님, 반갑습니다!
+          </a>
+          <ul class="dropdown-menu" style="background-color:white; margin: 3px auto 3px auto; border: solid #C5E1D4;">
+            <li><a class="dropdown-item" href="#">LogOut</a></li>
+            <li><a class="dropdown-item" href="logined/mypage">MyPage</a></li>
+          </ul>
         </li>
       </ul>
     </div>
@@ -59,6 +65,11 @@
       }
     </style>
     <div class="my-font" style="line-height:30px">
+      <div style="display: none;">
+        <div name="email"><% loginfo[0].email %></div>
+        <div name="password"><% loginfo[0].password %></div>
+        <div name="userName"><% loginfo[0].userName %></div>
+      </div>
       <h3>간메추란?</h3>
       이런 분들을 위해 만들어졌어요.
       <br>
