@@ -29,9 +29,13 @@ app.get('/write', function(req, res) {
     res.sendFile(__dirname +'/write.html')
   })
 
-  app.get('/login', function(req, res) { 
+app.get('/login', function(req, res) { 
     res.sendFile(__dirname +'/login.html')
-  })
+})
+
+app.get('/menu', function(req, res) { 
+  res.sendFile(__dirname + '/menu.html')
+})
 
 app.get('/list', function(req, res) {
   db.collection('login').find().toArray(function(err, result){
@@ -40,15 +44,31 @@ app.get('/list', function(req, res) {
   })
 })
 
+app.post('/add/community', function(req, res) {
+  db.collection('login').find({userName : req.body.userName}).toArray(function(err, result){ // login 정보 확인->result
+    if(err) console.log(err)
+  db.collection('community').insertOne({userName : req.body.userName, comtext: req.body.comtext}, function() { // community에 insert
+    db.collection('community').find().toArray(function(err, comresult) { // community에서 find
+        if(err) return console.log(err)
+        console.log('community save complete')
+        res.render('community.ejs', {loginfo : result, cominfo : comresult})
+    })
+  })
+})
+})
+
 app.post('/community', function(req, res){
-  db.collection('login').find({}, {projection: {_id:0, com:1}}).toArray(function(error, comresult){
+  db.collection('community').find().toArray(function(error, comresult){ // community 읽어오기 -> comresult
     if(error) return console.log(error)
     console.log(comresult);
   
-    db.collection('login').find({email : req.body.email, password : req.body.password}).toArray(function(err, result){
-      if(err) return console.log(err)
-      console.log(result);
-      res.render('community.ejs', {loginfo : result, cominfo : comresult})
+    db.collection('login').find({email : req.body.email, password : req.body.password}).toArray(function(err, result){ // login 정보 확인->result
+      if(err) {
+        console.log(err)
+        res.send('아이디와 비밀번호가 일치하지 않습니다.')
+      }
+      console.log(result); // login 정보
+      res.render('community.ejs', {loginfo : result, cominfo : comresult}) 
     })
   })
 })
@@ -56,11 +76,14 @@ app.post('/community', function(req, res){
   app.post('/add', function(req, res){
     db.collection('config').findOne({name : 'totalcount'}, function(err, result){
       var mycount = result.count;
-      db.collection('login').insertOne( { _id : (mycount + 1), email : req.body.email, password : req.body.password, userName : req.body.userName, com : req.body.com } , function(){
-        db.collection('config').updateOne({name:'totalcount'}, { $inc: {count:1} }, function(err, result) {
-          if(err) return console.log(err)
-          console.log('save complete')
-          res.render('add.ejs')
+      db.collection('login').insertOne( { _id : (mycount + 1), email : req.body.email, password : req.body.password, userName : req.body.userName} , function(){
+        db.collection('config').updateOne({name:'totalcount'}, { $inc: {count:1} }, function() {
+          db.collection('community').insertOne({ userName : req.body.userName, comtext : req.body.comtext}, function() {
+            if(err) return console.log(err)
+            console.log('save complete')
+            res.render('add.ejs')
+          })
+          
         });
       });
     });

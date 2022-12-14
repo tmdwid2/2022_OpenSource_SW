@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en" style="min-height:100%;">
-
 <head>
   <link rel="shortcut icon" href="#">
   <meta charset="utf-8">
@@ -19,7 +18,7 @@
     integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 
-<body class="bg-success p-2 text-dark bg-opacity-10"  style="min-height:100vh;">
+<body class="bg-success p-2 text-dark bg-opacity-10" style="min-height:100vh;">
   <div>
     <br>
     <div class="my-font">
@@ -27,33 +26,35 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/" style="color: black;">Home</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"  style="color: black;">
-            Menu
-          </a>
-          <ul class="dropdown-menu" style="background-color:white; margin: 3px auto 3px auto; border: solid #C5E1D4;">
-            <li><a class="dropdown-item" href="#">샐러드</a></li>
-            <li><a class="dropdown-item" href="#">샌드위치</a></li>
-            <li><a class="dropdown-item" href="#">그릭요거트</a></li>
-            <li><a class="dropdown-item" href="#">모든 메뉴</a></li>
-          </ul>
+        <li class="nav-item">
+          <a class="nav-link" href="/menu" style="color: black;">Menu</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" style="color: black;">Community</a>
+          <a class="nav-link" href="/login" style="color: black;">Community</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"  style="color: black;">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+            style="color: black;">
             <%= loginfo[0].userName %> 님, 반갑습니다!
           </a>
           <ul class="dropdown-menu" style="background-color:white; margin: 3px auto 3px auto; border: solid #C5E1D4;">
-            <li><a class="dropdown-item" href="/">LogOut</a></li>
+            <li><a class="dropdown-item" href="/login">LogOut</a></li>
           </ul>
         </li>
       </ul>
     </div>
     <br>
-    <div>
-      <img src="http://192.168.183.130/img/test_image.jpg" class="img-fluid" alt="..."/>
+    <div class="my-font">
+      <span style="margin: 10px;">
+        <span style="font-size: 70px;">간</span><span style="font-size: 30px;">단한</span>
+      </span>
+      <span style="margin: 10px;">
+        <span style="font-size: 70px;">메</span><span style="font-size: 30px;">뉴</span>
+      </span>
+      <span style="margin: 10px;">
+        <span style="font-size: 70px;">추</span><span style="font-size: 30px;">천</span>
+      </span>
+      <div style="color: #53826c;">어디서? 여기서!</div>
     </div>
     <div class="text-success">
       <hr>
@@ -63,22 +64,27 @@
         text-align: center;
       }
     </style>
-    
+
     <div class="my-font" style="line-height:30px">
       <div class="container text-center">
-        <% for (var i = 0; i < cominfo.length; i ++) { %> 
-          <% if(cominfo[i].com == null) continue %>
-
+        <% for (var i=0; i < cominfo.length; i ++) { %>
+          <% if(cominfo[i].comtext==null) continue %>
           <div class="row">
             <div class="col"></div>
             <div class="col" style="background-color:white; margin: 3px auto 3px auto; border: solid #C5E1D4;">
-              <%= cominfo[i].com %>
+              <%= cominfo[i].userName %>
+            </div>
+            <div class="col" style="background-color:white; margin: 3px auto 3px auto; border: solid #C5E1D4;">
+              <%= cominfo[i].comtext %>
             </div>
             <div class="col"></div>
           </div>
-          <% } %> 
+        <% } %>
       </div>
       <form action="/add/community" method="POST" style="padding: 30px;">
+        <span style="display: none;">
+          <input type="text" class="form-control" name="userName" id="exampleInputName1" value="<%=loginfo[0].userName%>">
+        </span>
         <p><textarea cols="50" rows="3" name="comtext"></textarea></p>
         <p><input type="submit" value="Submit"></p>
       </form>
